@@ -1,7 +1,5 @@
 #  基础镜像
 FROM java:openjdk-8-jre-alpine
-# 维护者信息
-MAINTAINER im.lihaodong@gmail.com
 #Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 #设置alpine时区
