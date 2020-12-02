@@ -2,8 +2,6 @@
 FROM java:openjdk-8-jre-alpine
 #Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
-#解决验证码问题
-RUN apk add fontconfig && apk add --update ttf-dejavu && fc-cache --force
 #添加应用
 ADD pre-system-1.4.jar pre-system-1.4.jar
 #参数
