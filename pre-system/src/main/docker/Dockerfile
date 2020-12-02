@@ -7,5 +7,5 @@ ADD pre-system-1.4.jar pre-system-1.4.jar
 #参数
 #ENV PARAMS=""
 #执行操作 默认启动线上环境
-ENTRYPOINT [ "sh", "-c", "java -Xmx50m -Djava.security.egd=file:/dev/./urandom -jar pre-system-1.4.jar --spring.profiles.active=prod" ]
+ENTRYPOINT [ "sh", "-c", "java -Xmx50m -Djava.security.egd=file:/dev/./urandom -jar pre-system-1.4.jar --spring.profiles.active=dev" ]
 
