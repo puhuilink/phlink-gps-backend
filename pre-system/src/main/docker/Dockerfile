@@ -8,7 +8,7 @@ ENV TIMEZONE Asia/Shanghai
 RUN apk add -U tzdata && ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo "${TIMEZONE}" > /etc/timezone
 RUN sed -i -e 's/dl-cdn/dl-4/g' /etc/apk/repositories && apk add -U tzdata && ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo "${TIMEZONE}" > /etc/timezone
 #解决验证码问题
-RUN apk add fontconfig && apk add --update ttf-dejavu && fc-cache --force
+RUN set -xe && apk --no-cache add ttf-dejavu fontconfig
 #添加应用
 ADD pre-system-1.4.jar pre-system-1.4.jar
 #参数
