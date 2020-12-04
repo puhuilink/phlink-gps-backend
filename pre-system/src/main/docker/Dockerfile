@@ -7,6 +7,8 @@ ENV TIMEZONE Asia/Shanghai
 #alpine自带的包含dl-cdn的域名非常慢，需要修改后才能下载数据。
 RUN apk add -U tzdata && ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo "${TIMEZONE}" > /etc/timezone
 RUN sed -i -e 's/dl-cdn/dl-4/g' /etc/apk/repositories && apk add -U tzdata && ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo "${TIMEZONE}" > /etc/timezone
+#解决验证码
+RUN sudo apt-get install ttf-mscorefonts-installer && sudo apt-get install fontconfig && mkfontscale && mkfontdir && sudo apt-get install ttf-dejavu && fc-cache -fv
 #添加应用
 ADD pre-system-1.4.jar pre-system-1.4.jar
 #参数
