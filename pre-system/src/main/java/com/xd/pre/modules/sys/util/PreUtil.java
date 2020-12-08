@@ -12,10 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -126,6 +123,17 @@ public class PreUtil {
                     children.add(dept);
                 }
             }
+
+            Collections.sort(children, (o1, o2) -> {
+                if(null == o1.getSort()) {
+                    return -1;
+                }
+                if(null == o2.getSort()) {
+                    return 1;
+                }
+                return o1.getSort().compareTo(o2.getSort());
+            });
+
             sysDept.setChildren(children);
             findChildren(children, depts);
         }
