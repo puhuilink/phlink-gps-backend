@@ -64,7 +64,7 @@ spring:
       minimum-idle: 3
     password: 3wVp0=7XxVXRUf(&
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.2.175:30003/pre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://db.ph.io:30003/pre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
     username: pre
   mail:
     host: smtp.qq.com
@@ -81,7 +81,7 @@ spring:
     allow-bean-definition-overriding: true
   redis:
     database: 1
-    host: 192.168.2.108
+    host: redis.ph.io
     jedis:
       pool:
         max-active: 8
