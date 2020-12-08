@@ -22,13 +22,11 @@ public class PreSecurityUser implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-
     private LoginType loginType = LoginType.normal;
     private Integer userId;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-
 
     public PreSecurityUser(Integer userId, String username, String password, Collection<? extends GrantedAuthority> authorities, LoginType loginType) {
         this.userId = userId;

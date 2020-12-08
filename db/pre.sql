@@ -535,3 +535,23 @@ INSERT INTO `sys_user_role` VALUES (44, 7, 9);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- function of dept_childlist
+-- ----------------------------
+
+DELIMITER $$
+CREATE FUNCTION dept_childlist (id INT)
+RETURNS VARCHAR(1024)
+BEGIN
+	RETURN(select group_concat(dept_id) from (
+       WITH RECURSIVE cte AS (
+       SELECT a.dept_id, a.parent_id,a.name
+         FROM sys_dept a
+        WHERE a.dept_id=id
+       	UNION ALL
+       SELECT k.dept_id, k.parent_id,k.name
+         FROM sys_dept k
+   INNER JOIN cte c ON c.dept_id = k.parent_id )
+       SELECT dept_id, name, parent_id FROM cte) c);
+END $$

@@ -50,7 +50,7 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
         StatementHandler statementHandler = PluginUtils.realTarget(invocation.getTarget());
         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
         this.sqlParser(metaObject);
-        // 先判断是不是SELECT操作 不是直接过滤
+        // 先判断是否SELECT操作 不是则跳过检查
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         if (!SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
@@ -74,17 +74,23 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
             if (user == null) {
                 throw new PreBaseException("auto datascope, set up security details true");
             }
-            // 解析角色Id
-            List<String> roleIdList = user.getAuthorities()
-                    .stream().map(GrantedAuthority::getAuthority)
-                    .filter(authority -> authority.startsWith("ROLE_"))
-                    .map(authority -> authority.split("_")[1])
-                    .collect(Collectors.toList());
 
             // 通过角色Id查询范围权限
             Entity query = Db.use(dataSource)
-                    .query("SELECT * FROM sys_role where role_id IN (" + CollUtil.join(roleIdList, ",") + ")")
-                    .stream().min(Comparator.comparingInt(o -> o.getInt("ds_type"))).get();
+                    .query("select  u.user_id,\n" +
+                            "        r.role_id,\n" +
+                            "        r.ds_type,\n" +
+                            "        case ds_type \n" +
+                            "         when 1 then r.ds_scope\n" +
+                            "         when 2 then u.dept_id\n" +
+                            "         when 3 then dept_childlist(u.dept_id)\n" +
+                            "         when 4 then r.ds_scope\n" +
+                            "        else '0' end ds_scope\n" +
+                            "  from sys_user u, sys_user_role ur, sys_role r\n" +
+                            " where u.user_id = ur.user_id and \n" +
+                            "       ur.role_id = r.role_id\n" +
+                            "       and u.user_id = " + user.getUserId())
+                    .stream().max(Comparator.comparingInt(o -> o.getInt("ds_type"))).get();
             // 数据库权限范围字段
             Integer dsType = query.getInt("ds_type");
             // 查询全部
@@ -102,7 +108,6 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
             return invocation.proceed();
         }
         return invocation.proceed();
-
 
     }
 

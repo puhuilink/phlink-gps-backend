@@ -41,7 +41,7 @@ public class BExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public R handleDuplicateKeyException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return R.error(300, "数据库中已存在该记录");
+        return R.error(300, "已存在该记录");
     }
 
     @ExceptionHandler(AccessDeniedException.class)

@@ -62,10 +62,10 @@ spring:
       max-lifetime: 30000
       maximum-pool-size: 10
       minimum-idle: 3
-    password: root
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/pre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
-    username: root
+    url: jdbc:mysql://192.168.2.108:30003/pre?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: pre
+    password: 3wVp0=7XxVXRUf(&
   mail:
     host: smtp.qq.com
     password: ENC(b1a/IYyqK7WL70rlA7JZxmqqoLDY2rtLvX9cNp5YWP0=)
@@ -81,15 +81,15 @@ spring:
     allow-bean-definition-overriding: true
   redis:
     database: 1
-    host: localhost
+    host: 192.168.2.175
     jedis:
       pool:
         max-active: 8
         max-idle: 8
         max-wait: 30000ms
         min-idle: 1
-    password: ''
-    port: 6379
+    password: '8F8?#jNe[pEbflK5'
+    port: 30001
     timeout: 6000ms
 
-uploadFileServerPathPrefix: /Users/lihaodong/Desktop/files
+uploadFileServerPathPrefix: /Users/zappa.com/Desktop/files
