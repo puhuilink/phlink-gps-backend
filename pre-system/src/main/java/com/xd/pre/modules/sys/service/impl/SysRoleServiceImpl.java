@@ -133,7 +133,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public List<SysRole> selectRoleList(String roleName) {
         LambdaQueryWrapper<SysRole> sysRoleLambdaQueryWrapper = Wrappers.<SysRole>lambdaQuery();
         if (StrUtil.isNotEmpty(roleName)){
-            sysRoleLambdaQueryWrapper.like(SysRole::getRoleName,roleName);
+            sysRoleLambdaQueryWrapper.like(SysRole::getRoleName, roleName);
         }
         List<SysRole> sysRoles = baseMapper.selectList(sysRoleLambdaQueryWrapper);
         return sysRoles.stream().peek(sysRole ->
