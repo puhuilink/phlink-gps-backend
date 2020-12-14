@@ -102,8 +102,8 @@ public class SysUserController {
     @SysOperaLog(descrption = "重置密码")
     @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('sys:user:rest')")
-    public R restPass(@PathVariable("userId") Integer userId) {
-        return R.ok(userService.restPass(userId));
+    public R resetPass(@PathVariable("userId") Integer userId) {
+        return R.ok(userService.resetPass(userId));
     }
 
 

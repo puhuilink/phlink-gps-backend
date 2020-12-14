@@ -53,7 +53,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId
      * @return
      */
-    boolean restPass(Integer userId);
+    boolean resetPass(Integer userId);
 
     /**
      * 通过用户名查找用户个人信息
