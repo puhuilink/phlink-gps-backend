@@ -22,7 +22,7 @@ public class IPUtil {
 
     public static String getCityInfo(String ip) {
         try {
-            //db
+            // db
             ClassPathResource resource = new ClassPathResource("/ip2region/ip2region.db");
             String tmpDir = System.getProperties().getProperty("java.io.tmpdir");
             String dbPath = tmpDir + "ip.db";

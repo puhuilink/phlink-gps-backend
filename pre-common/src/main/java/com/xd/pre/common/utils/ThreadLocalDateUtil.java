@@ -15,13 +15,11 @@ import java.util.Date;
  */
 public class ThreadLocalDateUtil {
 
-    public static ThreadLocal<DateFormat> threadLocal = new ThreadLocal<DateFormat>() {
-        @Override
-        protected DateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        }
-    };
+    public static ThreadLocal<DateFormat> threadLocal;
 
+    static {
+        threadLocal = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
+    }
 
     public static void main(String[] args) {
         LocalDateTime now = LocalDateTime.now();
@@ -29,6 +27,5 @@ public class ThreadLocalDateUtil {
         String nowStr = now .format(format);
         System.out.println(nowStr);
     }
-
 
 }

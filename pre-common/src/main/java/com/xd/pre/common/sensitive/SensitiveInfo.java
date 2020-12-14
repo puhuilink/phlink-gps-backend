@@ -20,4 +20,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface SensitiveInfo {
 
     public SensitiveType value();
+
 }

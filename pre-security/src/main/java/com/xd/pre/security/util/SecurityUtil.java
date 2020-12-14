@@ -51,4 +51,5 @@ public class SecurityUtil {
             throw new PreBaseException("登录状态过期", HttpStatus.UNAUTHORIZED.value());
         }
     }
+
 }

@@ -30,7 +30,7 @@ public class PrePageUtil extends PageUtil {
         int fromIndex = page * size;
         int toIndex = page * size + size;
 
-        if(fromIndex > list.size()){
+        if(fromIndex > list.size()) {
             return new ArrayList();
         } else if(toIndex >= list.size()) {
             return list.subList(fromIndex,list.size());

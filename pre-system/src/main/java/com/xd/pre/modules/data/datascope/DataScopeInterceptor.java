@@ -75,7 +75,7 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
                 throw new PreBaseException("auto datascope, set up security details true");
             }
 
-            // 通过角色Id查询范围权限
+            // 通过角色Id，查询数据权限范围(组织机构)
             Entity query = Db.use(dataSource)
                     .query("select  u.user_id,\n" +
                             "        r.role_id,\n" +
@@ -93,18 +93,15 @@ public class DataScopeInterceptor extends AbstractSqlParserHandler implements In
                     .stream().max(Comparator.comparingInt(o -> o.getInt("ds_type"))).get();
             // 数据库权限范围字段
             Integer dsType = query.getInt("ds_type");
-            // 查询全部
-            if (DataScopeTypeEnum.ALL.getType() == dsType) {
-                return invocation.proceed();
+            // 获取自定义 本级及其下级 查询本级
+            if (DataScopeTypeEnum.ALL.getType() != dsType) {
+                String dsScope = query.getStr("ds_scope");
+                deptIds.addAll(Arrays.stream(dsScope.split(","))
+                        .map(Integer::parseInt).collect(Collectors.toList()));
+                String join = CollectionUtil.join(deptIds, ",");
+                originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
+                metaObject.setValue("delegate.boundSql.sql", originalSql);
             }
-            // 除了全部 则要获取自定义 本级及其下级 查询本级
-            String dsScope = query.getStr("ds_scope");
-
-            deptIds.addAll(Arrays.stream(dsScope.split(","))
-                    .map(Integer::parseInt).collect(Collectors.toList()));
-            String join = CollectionUtil.join(deptIds, ",");
-            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
-            metaObject.setValue("delegate.boundSql.sql", originalSql);
             return invocation.proceed();
         }
         return invocation.proceed();
