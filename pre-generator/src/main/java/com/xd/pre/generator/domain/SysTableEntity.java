@@ -31,4 +31,5 @@ public class SysTableEntity {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String createTime;
+
 }
