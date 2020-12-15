@@ -32,7 +32,7 @@ import java.util.Objects;
  * @Author 李号东 lihaodongmail@163.com
  * @Date 2019-04-22 23:52
  * @Version 1.0
- * ①切面注解得到请求数据 -> ②发布监听事件 -> ③异步监听日志入库
+ * 1. 切面注解得到请求数据 -> 2. 发布监听事件 -> 3. 异步监听日志入库
  */
 @Slf4j
 @Aspect
@@ -51,9 +51,7 @@ public class SysLogAspect {
      * 定义controller切入点拦截规则，拦截SysLog注解的方法
      */
     @Pointcut("@annotation(com.xd.pre.log.annotation.SysOperaLog)")
-    public void sysLogAspect() {
-
-    }
+    public void sysLogAspect() {}
 
     /***
      * 拦截控制层的操作日志
@@ -64,7 +62,7 @@ public class SysLogAspect {
     @Before(value = "sysLogAspect()")
     public void recordLog(JoinPoint joinPoint) throws Throwable {
         SysLog sysLog = new SysLog();
-        //将当前实体保存到threadLocal
+        // 将当前实体保存到threadLocal
         sysLogThreadLocal.set(sysLog);
         // 开始时间
         long beginTime = Instant.now().toEpochMilli();
@@ -81,9 +79,9 @@ public class SysLogAspect {
         sysLog.setBrowser(UserAgentUtil.parse(uaStr).getBrowser().toString());
         sysLog.setOs(UserAgentUtil.parse(uaStr).getOs().toString());
 
-        //访问目标方法的参数 可动态改变参数值
+        // 访问目标方法的参数 可动态改变参数值
         Object[] args = joinPoint.getArgs();
-        //获取执行的方法名
+        // 获取执行的方法名
         sysLog.setActionMethod(joinPoint.getSignature().getName());
         // 类名
         sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
@@ -104,7 +102,7 @@ public class SysLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "sysLogAspect()")
     public void doAfterReturning(Object ret) {
-        //得到当前线程的log对象
+        // 获取当前线程的log对象
         SysLog sysLog = sysLogThreadLocal.get();
         // 处理完请求，返回内容
         R r = Convert.convert(R.class, ret);
@@ -137,7 +135,7 @@ public class SysLogAspect {
         sysLog.setExDesc(e.getMessage());
         // 发布事件
         applicationContext.publishEvent(new SysLogEvent(sysLog));
-        //移除当前log实体
+        // 移除当前log实体
         sysLogThreadLocal.remove();
     }
 

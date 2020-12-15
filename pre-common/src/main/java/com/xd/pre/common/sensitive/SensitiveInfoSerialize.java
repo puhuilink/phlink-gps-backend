@@ -22,8 +22,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
 
     private SensitiveType type;
 
-    public SensitiveInfoSerialize() {
-    }
+    public SensitiveInfoSerialize() {}
 
     public SensitiveInfoSerialize(final SensitiveType type) {
         this.type = type;
@@ -33,38 +32,30 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
     public void serialize(final String s, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
         switch (this.type) {
-            case CHINESE_NAME: {
+            case CHINESE_NAME:
                 jsonGenerator.writeString(SensitiveInfoUtils.chineseName(s));
                 break;
-            }
-            case ID_CARD: {
+            case ID_CARD:
                 jsonGenerator.writeString(SensitiveInfoUtils.idCardNum(s));
                 break;
-            }
-            case FIXED_PHONE: {
+            case FIXED_PHONE:
                 jsonGenerator.writeString(SensitiveInfoUtils.fixedPhone(s));
                 break;
-            }
-            case MOBILE_PHONE: {
+            case MOBILE_PHONE:
                 jsonGenerator.writeString(SensitiveInfoUtils.mobilePhone(s));
                 break;
-            }
-            case ADDRESS: {
+            case ADDRESS:
                 jsonGenerator.writeString(SensitiveInfoUtils.address(s, 4));
                 break;
-            }
-            case EMAIL: {
+            case EMAIL:
                 jsonGenerator.writeString(SensitiveInfoUtils.email(s));
                 break;
-            }
-            case BANK_CARD: {
+            case BANK_CARD:
                 jsonGenerator.writeString(SensitiveInfoUtils.bankCard(s));
                 break;
-            }
-            case CNAPS_CODE: {
+            case CNAPS_CODE:
                 jsonGenerator.writeString(SensitiveInfoUtils.cnapsCode(s));
                 break;
-            }
         }
 
     }
@@ -73,7 +64,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
     public JsonSerializer<?> createContextual(final SerializerProvider serializerProvider, final BeanProperty beanProperty) throws JsonMappingException {
         // 为空直接跳过
         if (beanProperty != null) {
-            // 非 String 类直接跳过
+            // 非String类直接跳过
             if (Objects.equals(beanProperty.getType().getRawClass(), String.class)) {
                 SensitiveInfo sensitiveInfo = beanProperty.getAnnotation(SensitiveInfo.class);
                 if (sensitiveInfo == null) {

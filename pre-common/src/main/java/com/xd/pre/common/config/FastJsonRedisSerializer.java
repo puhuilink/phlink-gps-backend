@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 
 /**
  * @Classname FastJsonRedisSerializer
- * @Description TODO
+ * @Description
  * @Author Created by Lihaodong (alias:小东啊) lihaodongmail@163.com
  * @Date 2019-07-19 09:27
  * @Version 1.0
@@ -26,7 +26,7 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
         this.clazz = clazz;
     }
     static {
-        ParserConfig.getGlobalInstance().addAccept("com.xd.pre.modules.security.social");//解决fastJson autoType is not support错误
+        ParserConfig.getGlobalInstance().addAccept("com.xd.pre.modules.security.social"); // 解决fastJson autoType is not support错误
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
     }
 

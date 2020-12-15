@@ -49,7 +49,7 @@ public class SysDictController {
      */
     @SysOperaLog(descrption = "查询字典集合")
     @GetMapping
-    @PreAuthorize("hasAuthority('sys:dipt:view')")
+    @PreAuthorize("hasAuthority('sys:dict:view')")
     public R getList(Page page, SysDict sysDict) {
         return R.ok(dictService.page(page, Wrappers.query(sysDict)));
     }

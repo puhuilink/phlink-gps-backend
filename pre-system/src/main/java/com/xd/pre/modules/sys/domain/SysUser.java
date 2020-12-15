@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.xd.pre.common.sensitive.SensitiveInfo;
 import com.xd.pre.common.sensitive.SensitiveType;
 import lombok.Data;
@@ -39,7 +40,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 用户名
      */
-    @SensitiveInfo(SensitiveType.CHINESE_NAME)
+    // @SensitiveInfo(SensitiveType.CHINESE_NAME)
     private String username;
 
     /**
@@ -77,11 +78,13 @@ public class SysUser extends Model<SysUser> {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
     /**
@@ -104,10 +107,9 @@ public class SysUser extends Model<SysUser> {
      * 部门名称
      */
     @TableField(exist = false)
-    private String deptName;;
+    private String deptName;
 
     @TableField(exist = false)
     private String key;
-
 
 }

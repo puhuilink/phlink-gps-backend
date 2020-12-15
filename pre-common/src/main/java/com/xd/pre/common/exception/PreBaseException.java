@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class PreBaseException extends RuntimeException implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2299212317448048874L;
 
     @Setter
     @Getter

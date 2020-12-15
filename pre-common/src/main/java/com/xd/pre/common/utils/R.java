@@ -22,8 +22,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class R implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 15357923558724454L;
 
     private int code = 200;
     private String msg;
@@ -56,4 +55,5 @@ public class R implements Serializable {
         r.setMsg(msg);
         return r;
     }
+
 }

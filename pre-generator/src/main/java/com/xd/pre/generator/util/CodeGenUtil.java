@@ -40,7 +40,7 @@ public class CodeGenUtil {
         // 包名配置
         PackageConfig packageConfig = getPackageConfig(packageName);
         // 自动生成
-        atuoGenerator(dataSourceConfig, strategyConfig, globalConfig, packageConfig, moduleName);
+        autoGenerator(dataSourceConfig, strategyConfig, globalConfig, packageConfig, moduleName);
         return true;
     }
 
@@ -52,7 +52,7 @@ public class CodeGenUtil {
      * @param config           全局变量配置
      * @param packageConfig    包名配置
      */
-    private void atuoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig, GlobalConfig config, PackageConfig packageConfig, String moduleName) {
+    private void autoGenerator(DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig, GlobalConfig config, PackageConfig packageConfig, String moduleName) {
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -117,9 +117,9 @@ public class CodeGenUtil {
                 .setOpen(false)
                 // 是否覆盖
                 .setFileOverride(true)
-                //生成基本的resultMap
+                // 生成基本的resultMap
                 .setBaseResultMap(true)
-                //生成基本的SQL片段
+                // 生成基本的SQL片段
                 .setBaseColumnList(false)
                 // 作者
                 .setAuthor(author);
@@ -136,10 +136,10 @@ public class CodeGenUtil {
 
         return new StrategyConfig()
                 .setEntityLombokModel(true)
-                //表名生成策略  下划线转驼峰
+                // 表名生成策略  下划线转驼峰
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setColumnNaming(NamingStrategy.underline_to_camel)
-                //需要生成的的表名，多个表名传数组
+                // 需要生成的的表名，多个表名传数组
                 .setInclude(tableNames)
                 .setRestControllerStyle(true)
                 .setControllerMappingHyphenStyle(true);

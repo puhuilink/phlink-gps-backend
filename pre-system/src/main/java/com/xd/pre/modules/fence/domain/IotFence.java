@@ -1,51 +1,45 @@
-package com.xd.pre.modules.sys.domain;
+package com.xd.pre.modules.fence.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
  * <p>
- * 岗位管理
+ * 围栏信息表
  * </p>
  *
- * @author lihaodong
- * @since 2019-05-01
+ * @author phlink
+ * @since 2020-12-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysJob implements Serializable {
+public class IotFence implements Serializable {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
     /**
-     * 主键
+     * 围栏主键ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 岗位名称
+     * 围栏坐标点信息
      */
-    private String jobName;
+    private String fence;
 
     /**
-     * 部门id
+     * 围栏名称
      */
-    private Integer deptId;
-
-    /**
-     * 排序
-     */
-    private Integer sort;
+    private String name;
 
     /**
      * 创建时间
@@ -58,14 +52,6 @@ private static final long serialVersionUID=1L;
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
-
-
-    /**
-     * 非数据库字段
-     * 所属部门
-     */
-    @TableField(exist = false)
-    private String deptName;
 
 
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +73,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 }
             }
         });
-        sysMenus.sort((o1, o2) -> o1.getSort().compareTo(o2.getSort()));
+        sysMenus.sort(Comparator.comparing(SysMenu::getSort));
         PreUtil.findChildren(sysMenus, menus, 0);
         return sysMenus;
     }

@@ -20,15 +20,18 @@ import java.util.Collection;
 @Accessors(chain = true)
 public class PreSecurityUser implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2485231993061844364L;
 
+    private LoginType loginType;
 
-    private LoginType loginType = LoginType.normal;
+    {
+        loginType = LoginType.normal;
+    }
+
     private Integer userId;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-
 
     public PreSecurityUser(Integer userId, String username, String password, Collection<? extends GrantedAuthority> authorities, LoginType loginType) {
         this.userId = userId;
@@ -83,4 +86,5 @@ public class PreSecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

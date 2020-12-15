@@ -12,5 +12,7 @@ import lombok.Getter;
  */
 @Getter
 public enum LoginType {
-    normal, sms, social;
+
+    normal, sms, social
+
 }

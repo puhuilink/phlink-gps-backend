@@ -95,7 +95,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
                 }).collect(Collectors.toList());
 
-        PreUtil.findChildren1(collect,depts);
+        PreUtil.findChildren1(collect, depts);
         return collect;
     }
 

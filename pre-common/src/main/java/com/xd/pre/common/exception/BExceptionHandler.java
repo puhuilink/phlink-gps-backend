@@ -23,7 +23,6 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class BExceptionHandler {
 
-
     /**
      * 处理自定义异常
      */
@@ -41,13 +40,13 @@ public class BExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public R handleDuplicateKeyException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return R.error(300, "数据库中已存在该记录");
+        return R.error(300, "已存在该记录");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public R handleAuthorizationException(AccessDeniedException e) {
         log.error(e.getMessage());
-        return R.error(403, "没有权限，请联系管理员授权");
+        return R.error(403, "没有权限，请联系管理员");
     }
 
     @ExceptionHandler(AccountExpiredException.class)
@@ -73,6 +72,7 @@ public class BExceptionHandler {
         log.error(e.getMessage(), e);
         return R.error(e.getMessage());
     }
+
     @ExceptionHandler(ValidateCodeException.class)
     public R handleValidateCodeException(ValidateCodeException e) {
         log.error(e.getMessage(), e);

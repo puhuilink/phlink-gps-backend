@@ -1,6 +1,5 @@
 package com.xd.pre.common.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
 import java.lang.reflect.Field;
@@ -28,7 +27,7 @@ public class BeanUtil {
                 String propertyName = entry.getKey(); 	// 属性名
                 Object value = entry.getValue();		// 属性值
                 String setMethodName = "set" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
-                Field field = getClassField(clazz, propertyName);	//获取和map的key匹配的属性名称
+                Field field = getClassField(clazz, propertyName);	// 获取和map的key匹配的属性名称
                 if (field == null){
                     continue;
                 }

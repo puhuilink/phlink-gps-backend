@@ -49,5 +49,4 @@ public class SysCodeGenController {
         return R.ok(sysCodeService.generatorCode(codeGenConfig));
     }
 
-
 }

@@ -37,12 +37,12 @@ public class SysLogController {
         return R.ok(logService.selectLogList(page, pageSize,type,userName));
     }
 
-
     @SysOperaLog(descrption = "删除日志")
     @DeleteMapping("/{logId}")
     @PreAuthorize("hasAuthority('sys:log:delete')")
     public R delete(@PathVariable("logId") Integer logId) {
         return R.ok(logService.removeById(logId));
     }
+
 }
 
