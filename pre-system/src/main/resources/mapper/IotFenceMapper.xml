@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xd.pre.modules.fence.domain.IotFence">
         <id column="id" property="id" />
-        <result column="fence" property="fence" />
+        <result column="fence" property="fence" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="name" property="name" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />

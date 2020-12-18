@@ -1,5 +1,8 @@
 package com.xd.pre.modules.fence.dto;
 
+import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 
 /**
@@ -18,7 +21,8 @@ public class IotFenceDTO {
     /**
      * 围栏坐标点信息
      */
-    private String fence;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private JSONArray fence;
 
     /**
      * 围栏名称
