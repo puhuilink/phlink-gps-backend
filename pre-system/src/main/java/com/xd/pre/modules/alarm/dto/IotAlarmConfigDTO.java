@@ -52,13 +52,8 @@ public class IotAlarmConfigDTO {
      */
     private String deviceType;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
-
     @TableField(typeHandler = JacksonTypeHandler.class)
     private JSONObject validTime;
+
 
 }

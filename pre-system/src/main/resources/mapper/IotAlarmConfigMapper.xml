@@ -13,6 +13,29 @@
         <result column="update_time" property="updateTime" />
         <result column="tenant_id" property="tenantId" />
         <result column="valid_time" property="validTime" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <association property="fenceInfo" javaType="com.xd.pre.modules.fence.dto.IotFenceDTO">
+            <id column="fence_id" property="id" />
+            <result column="fence_name" property="name" />
+            <result column="fence" property="fence" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        </association>
     </resultMap>
+
+    <select id="getAlarmConfigPage" resultMap="BaseResultMap">
+        select
+            c.config_id,
+            c.name,
+            c.fence_id,
+            f.id as fence_id,
+            f.name as fence_name,
+            f.fence,
+            c.device_id,
+            c.device_type,
+            c.valid_time,
+            c.create_time,
+            c.update_time
+          from iot_alarm_config c
+        left join iot_fence f
+          on c.fence_id = f.id
+    </select>
 
 </mapper>

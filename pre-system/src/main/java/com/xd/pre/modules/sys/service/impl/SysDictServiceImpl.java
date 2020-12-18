@@ -48,7 +48,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public List<SysDictItem> queryDictItemByDictName(String dictName) {
 
-
         return baseMapper.queryDictItemByDictName(dictName);
     }
 }

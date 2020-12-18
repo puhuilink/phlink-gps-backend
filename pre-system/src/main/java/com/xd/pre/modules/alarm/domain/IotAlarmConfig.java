@@ -10,6 +10,7 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xd.pre.modules.fence.dto.IotFenceDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -65,5 +66,7 @@ public class IotAlarmConfig implements Serializable {
     @TableField(typeHandler = JacksonTypeHandler.class)
     private JSONObject validTime;
 
+    @TableField(exist =  false)
+    private IotFenceDTO fenceInfo;
 
 }

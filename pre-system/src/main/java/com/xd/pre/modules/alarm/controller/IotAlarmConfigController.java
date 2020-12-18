@@ -49,8 +49,8 @@ public class IotAlarmConfigController {
     @SysOperaLog(descrption = "告警配置信息")
     @GetMapping
     @PreAuthorize("hasAuthority('iot:alarmConfig:view')")
-    public R getList(Page page, IotAlarmConfig iotAlarmConfig) {
-        return R.ok(iIotAlarmConfigService.page(page, Wrappers.query(iotAlarmConfig)));
+    public R getList(Page page, IotAlarmConfigDTO iotAlarmConfigDTO) {
+        return R.ok(iIotAlarmConfigService.getIotAlertConfigPageList(page, iotAlarmConfigDTO));
     }
 
     /**

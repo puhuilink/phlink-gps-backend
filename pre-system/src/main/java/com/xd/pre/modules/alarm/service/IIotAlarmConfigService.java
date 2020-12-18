@@ -1,5 +1,7 @@
 package com.xd.pre.modules.alarm.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xd.pre.modules.alarm.domain.IotAlarmConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xd.pre.modules.alarm.dto.IotAlarmConfigDTO;
@@ -15,5 +17,7 @@ import com.xd.pre.modules.alarm.dto.IotAlarmConfigDTO;
 public interface IIotAlarmConfigService extends IService<IotAlarmConfig> {
 
     boolean updateAlarmConfig(IotAlarmConfigDTO iotAlarmConfigDTO);
+
+    IPage<IotAlarmConfig> getIotAlertConfigPageList(Page page, IotAlarmConfigDTO iotAlarmConfigDTO);
 
 }
