@@ -33,7 +33,7 @@ public class IotAlarmConfigController {
      * @param iotAlarmConfig
      * @return
      */
-    @SysOperaLog(descrption = "添加配置信息")
+    @SysOperaLog(descrption = "添加告警配置信息")
     @PreAuthorize("hasAuthority('iot:alarmConfig:add')")
     @PostMapping
     public R add(@RequestBody IotAlarmConfig iotAlarmConfig) {
@@ -46,7 +46,7 @@ public class IotAlarmConfigController {
      *
      * @return
      */
-    @SysOperaLog(descrption = "围栏信息")
+    @SysOperaLog(descrption = "告警配置信息")
     @GetMapping
     @PreAuthorize("hasAuthority('iot:alarmConfig:view')")
     public R getList(Page page, IotAlarmConfig iotAlarmConfig) {
@@ -59,7 +59,7 @@ public class IotAlarmConfigController {
      * @param iotAlarmConfigDTO
      * @return
      */
-    @SysOperaLog(descrption = "更新围栏")
+    @SysOperaLog(descrption = "更新告警配置")
     @PreAuthorize("hasAuthority('iot:alarmConfig:edit')")
     @PutMapping
     public R update(@RequestBody IotAlarmConfigDTO iotAlarmConfigDTO) {
