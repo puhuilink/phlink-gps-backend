@@ -91,5 +91,13 @@ spring:
     password: '8F8?#jNe[pEbflK5'
     port: 30001
     timeout: 6000ms
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image: #缩略图生成参数
+    width: 150
+    height: 150
+  web-server-url: 192.168.2.154:/
+  tracker-list: 192.168.2.154:22122
 
 uploadFileServerPathPrefix: /Users/zcc/git/pre/files
