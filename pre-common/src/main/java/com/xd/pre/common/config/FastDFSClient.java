@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -61,7 +62,7 @@ public class FastDFSClient {
      * @return
      */
     public String uploadFile(String content, String fileExtension) {
-        byte[] buff = content.getBytes(Charset.forName("UTF-8"));
+        byte[] buff = content.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream stream = new ByteArrayInputStream(buff);
         StorePath storePath = storageClient.uploadFile(stream,buff.length, fileExtension,null);
         return getResAccessUrl(storePath);
@@ -90,15 +91,17 @@ public class FastDFSClient {
      * @param fileUrl 文件访问地址
      * @return
      */
-    public void deleteFile(String fileUrl) {
+    public boolean deleteFile(String fileUrl) {
         if (StringUtils.isEmpty(fileUrl)) {
-            return;
+            return false;
         }
         try {
             StorePath storePath = StorePath.parseFromUrl(fileUrl);
             storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
+            return true;
         } catch (FdfsUnsupportStorePathException e) {
             log.warn(e.getMessage());
+            return false;
         }
     }
 
