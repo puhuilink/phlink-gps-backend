@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -24,7 +25,13 @@ public interface ISysFileService extends IService<SysFile> {
 
     R deleteFile(Integer fileId);
 
-    void downloadFile(Integer fileId, HttpServletResponse response) throws IOException;
-
     R deleteFiles(String batchFileUUID);
+
+    SysFile getFileItemById(Integer fileId);
+    List<SysFile> queryByBatchId(String batchFileUUID);
+    List<SysFile> queryByBiz(String bizType, String bizId);
+    List<SysFile> queryByUserId(Integer userId);
+    void updateFile(String fileBatchId,String bizType,String bizId);
+
+    void downloadFile(Integer fileId, HttpServletResponse response) throws IOException;
 }

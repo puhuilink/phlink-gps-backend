@@ -95,6 +95,31 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     }
 
     @Override
+    public SysFile getFileItemById(Integer fileId) {
+        return baseMapper.selectById(fileId);
+    }
+
+    @Override
+    public List<SysFile> queryByBatchId(String batchFileUUID) {
+        return baseMapper.selectList(Wrappers.<SysFile>query().lambda().and(i -> i.eq(SysFile::getFileBatchId, batchFileUUID)));
+    }
+
+    @Override
+    public List<SysFile> queryByBiz(String bizType, String bizId) {
+        return baseMapper.selectList(Wrappers.<SysFile>query().lambda().and(i -> i.eq(SysFile::getBizId, bizId).eq(SysFile::getBizType, bizType)));
+    }
+
+    @Override
+    public List<SysFile> queryByUserId(Integer userId) {
+        return baseMapper.selectList(Wrappers.<SysFile>query().lambda().and(i -> i.eq(SysFile::getUserId, userId)));
+    }
+
+    @Override
+    public void updateFile(String fileBatchId, String bizType, String bizId) {
+        update(Wrappers.<SysFile>update().lambda().set(SysFile::getBizId, bizId).set(SysFile::getBizType, bizType).eq(SysFile::getFileBatchId, fileBatchId));
+    }
+
+    @Override
     public void downloadFile(Integer fileId, HttpServletResponse response) throws IOException {
         LambdaQueryWrapper<SysFile> queryWrapper = Wrappers.<SysFile>query().lambda();
         SysFile file = getOne(queryWrapper.select(SysFile::getPath, SysFile::getName).and(i -> i.eq(SysFile::getId, fileId)));
