@@ -118,12 +118,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public SysUser findByUserInfoName(String username) {
         SysUser sysUser = baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery()
-                .select(SysUser::getUserId, SysUser::getUsername, SysUser::getPhone, SysUser::getEmail, SysUser::getPassword, SysUser::getDeptId, SysUser::getJobId, SysUser::getAvatar)
+                .select(SysUser::getUserId, SysUser::getUsername, SysUser::getPhone, SysUser::getEmail, SysUser::getDeptId, SysUser::getJobId, SysUser::getAvatar)
                 .eq(SysUser::getUsername, username));
         // 获取部门
         sysUser.setDeptName(deptService.selectDeptNameByDeptId(sysUser.getDeptId()));
         // 获取岗位
-//        sysUser.setJobName(jobService.selectJobNameByJobId(sysUser.getJobId()));
+        // sysUser.setJobName(jobService.selectJobNameByJobId(sysUser.getJobId()));
         return sysUser;
     }
 
