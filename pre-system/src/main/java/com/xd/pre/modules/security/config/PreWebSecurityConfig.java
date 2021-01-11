@@ -100,6 +100,7 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/tenant/list").anonymous()
                 .antMatchers("/tenant/setting/**").anonymous()
                 .antMatchers("/define/deploy/**").anonymous()
+                .antMatchers("/ws/**").anonymous()
                 .antMatchers("/file/**")
                 .permitAll()
                 // 访问/user 需要拥有admin权限

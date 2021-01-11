@@ -543,6 +543,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 DELIMITER $$
 CREATE FUNCTION dept_childlist (id INT)
 RETURNS VARCHAR(1024)
+DETERMINISTIC
 BEGIN
 	RETURN(select group_concat(dept_id) from (
        WITH RECURSIVE cte AS (
