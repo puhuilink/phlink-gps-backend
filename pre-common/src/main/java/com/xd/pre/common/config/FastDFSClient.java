@@ -1,9 +1,6 @@
 package com.xd.pre.common.config;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -40,6 +37,11 @@ public class FastDFSClient {
      */
     public String uploadFile(MultipartFile file) throws IOException {
         StorePath storePath = storageClient.uploadFile(file.getInputStream(),file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()),null);
+        return getResAccessUrl(storePath);
+    }
+
+    public String uploadFile(InputStream in, long size, String fileName) throws IOException {
+        StorePath storePath = storageClient.uploadFile(in, size, FilenameUtils.getExtension(fileName),null);
         return getResAccessUrl(storePath);
     }
 

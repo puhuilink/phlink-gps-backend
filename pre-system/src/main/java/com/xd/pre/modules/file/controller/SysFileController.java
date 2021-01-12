@@ -4,13 +4,19 @@ package com.xd.pre.modules.file.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.xd.pre.common.config.FastDFSClient;
 import com.xd.pre.common.utils.R;
+import com.xd.pre.modules.file.domain.FileItem;
 import com.xd.pre.modules.file.domain.SysFile;
 import com.xd.pre.modules.file.dto.FileDTO;
+import com.xd.pre.modules.file.service.FileService;
 import com.xd.pre.modules.file.service.ISysFileService;
+import com.xd.pre.modules.sys.domain.SysUser;
 import com.xd.pre.modules.sys.service.ISysDeptService;
+import com.xd.pre.modules.sys.service.ISysUserService;
+import com.xd.pre.security.util.SecurityUtil;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +25,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +42,12 @@ import java.util.List;
 public class SysFileController {
 
     @Autowired
-    private ISysFileService sysFileService;
+    @Qualifier("fastdfsFileService")
+//    @Qualifier("localFileService")二选一
+    private FileService fileService;
+
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 单文件上传
@@ -47,13 +59,16 @@ public class SysFileController {
     @SneakyThrows
     @PostMapping(value = "/upload")
     public R upload(@Valid FileDTO param) {
-        SysFile sysFile = new SysFile();
-        sysFile.setName(param.getFile().getOriginalFilename());
-        sysFile.setBizId(param.getBizId());
-        sysFile.setBizType(param.getBizType());
-        sysFile.setFileBatchId(param.getBatchFileUUID());
+        SysUser user = userService.findByUserInfoName(SecurityUtil.getUser().getUsername());
+        FileItem item = fileService.createFileItem(param.getFile().getOriginalFilename(), param.getFile().getInputStream(),
+                param.getFile().getSize(), param.getBizType(), param.getBizId(), user.getUserId(), user.getDeptId(), param.getBatchFileUUID());
 
-        return R.ok(sysFileService.uploadFile(param.getFile(), sysFile));
+        JSONObject result = new JSONObject();
+        result.put("path", item.getPath());
+        result.put("name", item.getName());
+        result.put("id", item.getId());
+
+        return R.ok(result);
     }
 
     /**
@@ -68,14 +83,16 @@ public class SysFileController {
     public R uploads(@Valid FileDTO param) {
         List<JSONObject> dtoList = new ArrayList<>();
         for (MultipartFile file : param.getFiles()) {
-            SysFile sysFile = new SysFile();
-            sysFile.setName(file.getOriginalFilename());
-            sysFile.setBizId(param.getBizId());
-            sysFile.setBizType(param.getBizType());
-            sysFile.setFileBatchId(param.getBatchFileUUID());
-            JSONObject json = sysFileService.uploadFile(file, sysFile);
+            SysUser user = userService.findByUserInfoName(SecurityUtil.getUser().getUsername());
+            FileItem item = fileService.createFileItem(file.getOriginalFilename(), file.getInputStream(),
+                    file.getSize(), param.getBizType(), param.getBizId(), user.getUserId(), user.getDeptId(), param.getBatchFileUUID());
 
-            dtoList.add(json);
+            JSONObject result = new JSONObject();
+            result.put("path", item.getPath());
+            result.put("name", item.getName());
+            result.put("id", item.getId());
+
+            dtoList.add(result);
         }
 
         return R.ok(dtoList);
@@ -88,21 +105,9 @@ public class SysFileController {
      * @throws Exception
      */
     @SneakyThrows
-    @GetMapping("/deletes")
-    public R deletes(String batchFileUUID) {
-        return sysFileService.deleteFiles(batchFileUUID);
-    }
-
-    /**
-     * 文件删除
-     *
-     * @param url url 开头从组名开始
-     * @throws Exception
-     */
-    @SneakyThrows
     @GetMapping("/delete")
-    public R delete(Integer fileId) {
-        return sysFileService.deleteFile(fileId);
+    public R delete(Integer fileId, String batchFileUUID) {
+        return fileService.removeFile(fileId, batchFileUUID) ? R.ok() : R.error();
     }
 
     /**
@@ -115,7 +120,9 @@ public class SysFileController {
     @SneakyThrows
     @GetMapping(value = "/download")
     public void download(Integer fileId, HttpServletResponse response) {
-        sysFileService.downloadFile(fileId, response);
+        FileItem item = fileService.getFileItemById(fileId);
+        response.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(item.getName(),"UTF-8"));
+        item.copy(response.getOutputStream());
     }
 }
 
