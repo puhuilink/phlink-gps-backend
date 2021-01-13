@@ -111,5 +111,7 @@ public class SysUser extends Model<SysUser> {
 
     @TableField(exist = false)
     private String key;
+    @TableField(exist = false)
+    private String imageUrl;
 
 }

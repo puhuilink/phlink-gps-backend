@@ -3,9 +3,15 @@ package com.xd.pre.modules.sys.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
 import com.xd.pre.common.exception.PreBaseException;
 import com.xd.pre.log.annotation.SysOperaLog;
+import com.xd.pre.modules.file.domain.FileItem;
+import com.xd.pre.modules.file.domain.SysFile;
+import com.xd.pre.modules.file.service.FileService;
+import com.xd.pre.modules.file.service.ISysFileService;
 import com.xd.pre.security.util.SecurityUtil;
 import com.xd.pre.common.constant.PreConstant;
 import com.xd.pre.modules.sys.domain.SysUser;
@@ -14,8 +20,11 @@ import com.xd.pre.modules.sys.service.ISysUserService;
 import com.xd.pre.modules.sys.util.EmailUtil;
 import com.xd.pre.common.utils.R;
 import com.xd.pre.modules.sys.util.PreUtil;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +46,12 @@ public class SysUserController {
 
     @Autowired
     private EmailUtil emailUtil;
+
+    @Autowired
+    private ISysFileService sysFileService;
+
+    @Autowired
+    private FdfsWebServer fdfsWebServer;
 
     /**
      * 保存用户包括角色和部门
@@ -79,6 +94,18 @@ public class SysUserController {
         return R.ok(userService.updateUser(userDto));
     }
 
+    @SysOperaLog(descrption = "更新手机号和头像")
+    @PutMapping("/editInfo")
+    public R editInfo(@RequestParam String phone, @RequestParam String avatar) {
+        SysUser sysUser = userService.findSecurityUserByUser(new SysUser().setUsername(SecurityUtil.getUser().getUsername()));
+        SysUser user = new SysUser();
+        user.setUserId(sysUser.getUserId());
+        user.setPhone(phone);
+        user.setAvatar(avatar);
+        return R.ok(userService.updateUserInfo(user));
+    }
+
+
     /**
      * 删除用户包括角色和部门
      *
@@ -115,7 +142,19 @@ public class SysUserController {
     @SysOperaLog(descrption = "获取个人信息")
     @GetMapping("/info")
     public R getUserInfo() {
-        return R.ok(userService.findByUserInfoName(SecurityUtil.getUser().getUsername()));
+        SysUser user = userService.findByUserInfoName(SecurityUtil.getUser().getUsername());
+        if (!StringUtils.isEmpty(user.getAvatar())){
+            SysFile file = sysFileService.getFileItemById(Integer.valueOf(user.getAvatar()));
+            user.setImageUrl("http://" + fdfsWebServer.getWebServerUrl() + file.getPath());
+        }
+        return R.ok(user);
+    }
+
+    @SneakyThrows
+    @GetMapping("/getImageUrl")
+    public R getImageUrl(@RequestParam Integer fileId) {
+        SysFile file = sysFileService.getFileItemById(fileId);
+        return R.ok("http://" + fdfsWebServer.getWebServerUrl() + file.getPath());
     }
 
     /**

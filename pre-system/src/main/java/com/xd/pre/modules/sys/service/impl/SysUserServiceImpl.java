@@ -8,8 +8,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
 import com.xd.pre.common.exception.PreBaseException;
 import com.xd.pre.modules.data.datascope.DataScope;
+import com.xd.pre.modules.file.service.FileService;
+import com.xd.pre.modules.file.service.ISysFileService;
 import com.xd.pre.security.PreSecurityUser;
 import com.xd.pre.modules.security.social.SocialRedisHelper;
 import com.xd.pre.modules.security.util.JwtUtil;
@@ -23,6 +26,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -51,6 +55,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private ISysDeptService deptService;
     @Autowired
     private ISysMenuService menuService;
+    @Autowired
+    private ISysFileService sysFileService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired

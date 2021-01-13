@@ -2,6 +2,7 @@ package com.xd.pre.modules.file.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
 import com.xd.pre.common.config.FastDFSClient;
 import com.xd.pre.common.utils.R;
 import com.xd.pre.modules.file.domain.FileItem;
@@ -48,7 +49,6 @@ public class SysFileController {
 
     @Autowired
     private ISysUserService userService;
-
     /**
      * 单文件上传
      *
