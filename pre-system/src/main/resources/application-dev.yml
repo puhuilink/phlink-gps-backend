@@ -100,4 +100,6 @@ fdfs:
   web-server-url: 192.168.2.154:8888/
   tracker-list: 192.168.2.154:22122
 
-uploadFileServerPathPrefix: /Users/zcc/git/pre/files
+web-preview-url: 192.168.2.154:30040
+localFile:
+  root: /Users/zcc/git/pre/files

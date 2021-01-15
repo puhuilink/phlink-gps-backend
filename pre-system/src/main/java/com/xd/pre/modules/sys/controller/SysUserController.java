@@ -96,6 +96,7 @@ public class SysUserController {
 
     @SysOperaLog(descrption = "更新手机号和头像")
     @PutMapping("/editInfo")
+    @PreAuthorize("hasAuthority('sys:user:editInfo')")
     public R editInfo(@RequestParam String phone, @RequestParam String avatar) {
         SysUser sysUser = userService.findSecurityUserByUser(new SysUser().setUsername(SecurityUtil.getUser().getUsername()));
         SysUser user = new SysUser();

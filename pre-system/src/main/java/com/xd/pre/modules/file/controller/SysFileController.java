@@ -18,6 +18,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -49,27 +50,14 @@ public class SysFileController {
 
     @Autowired
     private ISysUserService userService;
-    /**
-     * 单文件上传
-     *
-     * @param file
-     * @return
-     * @throws Exception
-     */
-    @SneakyThrows
-    @PostMapping(value = "/upload")
-    public R upload(@Valid FileDTO param) {
-        SysUser user = userService.findByUserInfoName(SecurityUtil.getUser().getUsername());
-        FileItem item = fileService.createFileItem(param.getFile().getOriginalFilename(), param.getFile().getInputStream(),
-                param.getFile().getSize(), param.getBizType(), param.getBizId(), user.getUserId(), user.getDeptId(), param.getBatchFileUUID());
 
-        JSONObject result = new JSONObject();
-        result.put("path", item.getPath());
-        result.put("name", item.getName());
-        result.put("id", item.getId());
+    @Autowired
+    private FdfsWebServer fdfsWebServer;
 
-        return R.ok(result);
-    }
+    @Value("${web-preview-url}")
+    private String previewServerUrl;
+
+    private final static String PREVIEW_ADDRESS = "http://{0}/onlinePreview?url=";
 
     /**
      * 文件上传
@@ -79,7 +67,7 @@ public class SysFileController {
      * @throws Exception
      */
     @SneakyThrows
-    @PostMapping(value = "/uploads")
+    @PostMapping(value = "/upload")
     public R uploads(@Valid FileDTO param) {
         List<JSONObject> dtoList = new ArrayList<>();
         for (MultipartFile file : param.getFiles()) {
@@ -111,6 +99,21 @@ public class SysFileController {
     }
 
     /**
+     * 文件预览
+     *
+     * @param url url 开头从组名开始
+     * @throws Exception
+     */
+    @SneakyThrows
+    @GetMapping("/preview")
+    public R preview() {
+        JSONObject res = new JSONObject();
+        res.put("fileUrl", "http://" + fdfsWebServer.getWebServerUrl());
+        res.put("previewServerUrl", PREVIEW_ADDRESS.replace("{0}", previewServerUrl));
+        return R.ok(res);
+    }
+
+    /**
      * 文件下载
      *
      * @param url      url 开头从组名开始
@@ -122,6 +125,7 @@ public class SysFileController {
     public void download(Integer fileId, HttpServletResponse response) {
         FileItem item = fileService.getFileItemById(fileId);
         response.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(item.getName(),"UTF-8"));
+        response.setHeader("Content-Type", "application/octet-stream");
         item.copy(response.getOutputStream());
     }
 }

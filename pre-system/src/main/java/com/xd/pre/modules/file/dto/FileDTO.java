@@ -13,6 +13,5 @@ public class FileDTO {
 
     private String bizType;
     private String bizId;
-    private MultipartFile file;
     private MultipartFile[] files;
 }
