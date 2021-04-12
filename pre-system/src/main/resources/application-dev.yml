@@ -43,9 +43,17 @@ pre:
       - TABLES
       - COLUMNS
       - sys_job
+      - T_FLOWABLE_FORM
+      - ACT_HI_PROCINST
+      - ACT_RE_PROCDEF
+      - t_sys_post
     tenantIdColumn: tenant_id
   url:
     address: http://localhost:9528
+  flowable:
+    font-name: 宋体
+flowable:
+  async-executor-activate: false
 server:
   http2:
     enabled: true

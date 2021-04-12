@@ -85,12 +85,22 @@ public class SysDictController {
 
     /**
      * 根据字典名称查询字段详情
-     * @param dictName
+     * @param dictCode
      * @return
      */
-    @GetMapping("/queryDictItemByDictName/{dictName}")
-    public R queryDictItemByDictName(@PathVariable("dictName") String dictName) {
-        return R.ok(dictService.queryDictItemByDictName(dictName));
+    @GetMapping("/queryDictItemByDictCode/{dictCode}")
+    public R queryDictItemByDictCode(@PathVariable("dictCode") String dictCode) {
+        return R.ok(dictService.queryDictItemByDictCode(dictCode));
+    }
+
+    /**
+     * 根据多个字典名称（逗号分隔）查询所有的字段详情
+     * @param dictCodes
+     * @return
+     */
+    @GetMapping("/queryDictItemByDictCodes")
+    public R queryDictItemByDictCodes(@RequestParam String dictCodes) {
+        return R.ok(dictService.queryDictItemByDictCodes(dictCodes));
     }
 
 }

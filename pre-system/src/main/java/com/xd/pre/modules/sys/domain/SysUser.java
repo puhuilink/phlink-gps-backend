@@ -40,8 +40,13 @@ public class SysUser extends Model<SysUser> {
     /**
      * 用户名
      */
-    // @SensitiveInfo(SensitiveType.CHINESE_NAME)
     private String username;
+
+    /**
+     * 姓名
+     */
+    // @SensitiveInfo(SensitiveType.CHINESE_NAME)
+    private String realname;
 
     /**
      * 密码
@@ -111,6 +116,7 @@ public class SysUser extends Model<SysUser> {
 
     @TableField(exist = false)
     private String key;
+
     @TableField(exist = false)
     private String imageUrl;
 

@@ -86,6 +86,4 @@ public class SysDept extends Model<SysDept> {
     private List<SysDept> children;
 
 
-
-
 }
