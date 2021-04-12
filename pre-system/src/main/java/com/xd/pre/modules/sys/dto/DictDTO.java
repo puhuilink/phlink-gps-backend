@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class DictDTO {
 
-
     private Integer id;
 
     private String dictName;
@@ -28,4 +27,5 @@ public class DictDTO {
     private Integer sort;
 
     private String remark;
+
 }

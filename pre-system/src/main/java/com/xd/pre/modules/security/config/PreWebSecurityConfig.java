@@ -79,7 +79,6 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
         imageCodeFilter.setAuthenticationFailureHandler(preAuthenticationFailureHandler);
         httpSecurity
                 // 由于使用的是JWT，我们这里不需要csrf
@@ -101,6 +100,7 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/tenant/setting/**").anonymous()
                 .antMatchers("/define/deploy/**").anonymous()
                 .antMatchers("/ws/**").anonymous()
+                .antMatchers("/flowable/processDefinition/image").permitAll()
                 .antMatchers("/file/**")
                 .permitAll()
                 // 访问/user 需要拥有admin权限
@@ -110,13 +110,11 @@ public class PreWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
 
-
         // 添加自定义异常入口
         httpSecurity
                 .exceptionHandling()
                 .authenticationEntryPoint(new PreAuthenticationEntryPointImpl())
                 .accessDeniedHandler(new PreAccessDeineHandler());
-
 
         // 添加JWT filter 用户名登录
         httpSecurity

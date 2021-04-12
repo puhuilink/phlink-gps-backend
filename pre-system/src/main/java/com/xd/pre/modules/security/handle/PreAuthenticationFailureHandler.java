@@ -31,6 +31,8 @@ public class PreAuthenticationFailureHandler implements AuthenticationFailureHan
         } else {
             message = "认证失败，请联系网站管理员！";
         }
+
+        System.out.println("message: " + message);
         response.setContentType("application/json;charset=utf-8");
         SecurityUtil.writeJavaScript(R.error(message), response);
     }

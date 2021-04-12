@@ -28,6 +28,7 @@
         SELECT
         `user`.user_id,
         `user`.username,
+        `user`.realname,
         `user`.phone,
         `user`.email,
         `user`.avatar,

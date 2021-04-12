@@ -7,6 +7,7 @@ import com.xd.pre.modules.sys.dto.DictDTO;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,7 +26,6 @@ public interface ISysDictService extends IService<SysDict> {
      */
     boolean updateDict(DictDTO dictDto);
 
-
     /**
      * 根据主键Id删除字典
      * @param id
@@ -36,8 +36,16 @@ public interface ISysDictService extends IService<SysDict> {
 
     /**
      * 根据字典名称查询字段详情
-     * @param dictName
+     * @param dictCode
      * @return
      */
-    List<SysDictItem> queryDictItemByDictName(String dictName);
+    List<SysDictItem> queryDictItemByDictCode(String dictCode);
+
+    /**
+     * 根据多个字典名称查询对应字段详情
+     * @param dictCodes
+     * @return
+     */
+    Map<String, List<SysDictItem>> queryDictItemByDictCodes(String dictCodes);
+
 }

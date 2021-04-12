@@ -35,6 +35,11 @@
             <version>${pre.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.xd</groupId>
+            <artifactId>pre-flowable</artifactId>
+            <version>${pre.version}</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

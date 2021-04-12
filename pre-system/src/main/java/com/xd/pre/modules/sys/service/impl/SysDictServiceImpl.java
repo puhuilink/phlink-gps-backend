@@ -1,22 +1,19 @@
 package com.xd.pre.modules.sys.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xd.pre.modules.sys.domain.SysDict;
 import com.xd.pre.modules.sys.domain.SysDictItem;
 import com.xd.pre.modules.sys.dto.DictDTO;
 import com.xd.pre.modules.sys.mapper.SysDictMapper;
 import com.xd.pre.modules.sys.service.ISysDictService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 /**
@@ -46,8 +43,29 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public List<SysDictItem> queryDictItemByDictName(String dictName) {
+    public List<SysDictItem> queryDictItemByDictCode(String dictCode) {
 
-        return baseMapper.queryDictItemByDictName(dictName);
+        return baseMapper.queryDictItemByDictCode(dictCode);
     }
+
+    @Override
+    public Map<String, List<SysDictItem>> queryDictItemByDictCodes(String dictCodes) {
+
+        List<SysDictItem> SysDictItems = baseMapper.queryDictItemByDictCodes(strToArray(dictCodes));
+
+        Map<String, List<SysDictItem>> dictItemGroupBy = SysDictItems.stream().collect(Collectors.groupingBy(SysDictItem::getDictCode));
+
+        return dictItemGroupBy;
+    }
+
+    public String[] strToArray(String str) {
+        StringTokenizer st = new StringTokenizer(str, ",");
+        String[] strArray = new String[st.countTokens()];
+        int strLeng = st.countTokens();
+        for (int i=0; i<strLeng; i++) {
+            strArray[i] = st.nextToken();
+        }
+        return strArray;
+    }
+
 }
